@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const AWS = require("aws-sdk");
 const jwt = require("jsonwebtoken");
+const { expressjwt: ejwt } = require("express-jwt");
 const { registerEmailParams } = require("../helpers/email");
 const shortId = require("shortid");
 
@@ -132,6 +133,59 @@ exports.login = (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(401).json({
+        error: `Please try again.`,
+      });
+    });
+};
+
+exports.requireSignIn = ejwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["sha1", "RS256", "HS256"],
+});
+
+exports.authMiddleware = (req, res, next) => {
+  const authUserId = req.user._id;
+
+  User.findOne({ _id: authUserId })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          error: "User not found",
+        });
+      }
+
+      req.profile = user;
+
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({
+        error: `Please try again.`,
+      });
+    });
+};
+
+exports.adminMiddleware = (req, res, next) => {
+  const adminUserId = req.user._id;
+
+  User.findOne({ _id: adminUserId })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          error: "User not found",
+        });
+      }
+      if (user.role !== "admin") {
+        return res.status(400).json({
+          error: "Not Admin. Access denied",
+        });
+      }
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({
         error: `Please try again.`,
       });
     });
