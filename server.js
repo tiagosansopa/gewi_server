@@ -18,6 +18,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const accessRoutes = require("./routes/access");
+const bookingRoutes = require("./routes/booking");
 
 //app  middlewares
 
@@ -31,6 +32,7 @@ app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", accessRoutes);
+app.use("/api", bookingRoutes);
 
 const port = process.env.PORT || 8000;
 

@@ -124,7 +124,7 @@ exports.login = (req, res) => {
       });
 
       const { _id, name, email, role } = user;
-      res.json({
+      return res.json({
         token,
         user: { _id, name, email, role },
       });
