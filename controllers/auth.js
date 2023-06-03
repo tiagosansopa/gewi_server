@@ -112,7 +112,6 @@ exports.login = (req, res) => {
       }
 
       // authenticate
-      console.log(password);
       if (!user.authenticate(password)) {
         return res.status(400).json({
           error: "Incorrect password",
@@ -124,15 +123,15 @@ exports.login = (req, res) => {
         expiresIn: "7d",
       });
 
-      const { _id, name, email } = user;
+      const { _id, name, email, role } = user;
       res.json({
         token,
-        user: { _id, name, email },
+        user: { _id, name, email, role },
       });
     })
     .catch((err) => {
       console.log(err);
-      res.status(401).json({
+      return res.status(401).json({
         error: `Please try again.`,
       });
     });
@@ -140,12 +139,11 @@ exports.login = (req, res) => {
 
 exports.requireSignIn = ejwt({
   secret: process.env.JWT_SECRET,
-  algorithms: ["sha1", "RS256", "HS256"],
+  algorithms: ["HS256"],
 });
 
 exports.authMiddleware = (req, res, next) => {
-  const authUserId = req.user._id;
-
+  const authUserId = req.auth._id;
   User.findOne({ _id: authUserId })
     .then((user) => {
       if (!user) {
@@ -153,21 +151,18 @@ exports.authMiddleware = (req, res, next) => {
           error: "User not found",
         });
       }
-
       req.profile = user;
-
       next();
     })
     .catch((err) => {
-      console.log(err);
-      res.status(400).json({
+      return res.status(400).json({
         error: `Please try again.`,
       });
     });
 };
 
 exports.adminMiddleware = (req, res, next) => {
-  const adminUserId = req.user._id;
+  const adminUserId = req.auth._id;
 
   User.findOne({ _id: adminUserId })
     .then((user) => {
@@ -181,11 +176,11 @@ exports.adminMiddleware = (req, res, next) => {
           error: "Not Admin. Access denied",
         });
       }
+      req.profile = user;
       next();
     })
     .catch((err) => {
-      console.log(err);
-      res.status(400).json({
+      return res.status(400).json({
         error: `Please try again.`,
       });
     });

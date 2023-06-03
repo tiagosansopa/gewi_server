@@ -13,5 +13,6 @@ const { read } = require("../controllers/user");
 
 //route
 router.get("/user", requireSignIn, authMiddleware, read);
+router.get("/admin", requireSignIn, adminMiddleware, read);
 
 module.exports = router;

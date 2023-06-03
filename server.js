@@ -17,6 +17,8 @@ const app = express();
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const accessRoutes = require("./routes/access");
+
 //app  middlewares
 
 app.use(morgan("dev"));
@@ -28,9 +30,10 @@ app.use(cors({ origin: process.env.CLIENT_URL }));
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", accessRoutes);
 
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
-  console.log(`api is running on port ${8000}`);
+  console.log(`api is running on port ${port}`);
 });
