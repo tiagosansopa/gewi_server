@@ -84,16 +84,18 @@ exports.registerActivate = (req, res) => {
         }
         // create user
         const newUser = new User({ username, name, email, password });
-        newUser.save().then((err, result) => {
-          if (err) {
+        newUser
+          .save()
+          .then((user) => {
             return res.json({
               message: "Registration complete. Please log in",
             });
-          }
-          return res.status(401).json({
-            error: "Error. Try again later",
+          })
+          .catch((error) => {
+            return res.status(401).json({
+              error: "Error. Try again later",
+            });
           });
-        });
       });
     }
   );
@@ -123,10 +125,10 @@ exports.login = (req, res) => {
         expiresIn: "7d",
       });
 
-      const { _id, name, email, role } = user;
+      const { _id, name, email, role, img } = user;
       return res.json({
         token,
-        user: { _id, name, email, role },
+        user: { _id, name, email, role, img },
       });
     })
     .catch((err) => {

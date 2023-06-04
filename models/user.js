@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "subscriber",
     },
+    img: {
+      type: String,
+      default: "/images/temp/profile/inf.jpg",
+    },
     resetPasswordLink: {
       type: String,
       default: "",
