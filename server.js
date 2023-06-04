@@ -19,6 +19,7 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const accessRoutes = require("./routes/access");
 const bookingRoutes = require("./routes/booking");
+const amenitiesRoutes = require("./routes/amenity");
 
 //app  middlewares
 
@@ -33,6 +34,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", accessRoutes);
 app.use("/api", bookingRoutes);
+app.use("/api", amenitiesRoutes);
 
 const port = process.env.PORT || 8000;
 
