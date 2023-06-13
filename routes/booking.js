@@ -5,10 +5,13 @@ const router = express.Router();
 
 //import controllers
 
-const { readBookingsByDay, createBooking } = require("../controllers/booking");
+const {
+  readBookingsByMonth,
+  createBooking,
+} = require("../controllers/booking");
 
 //routes
 
-router.post("/bookings", readBookingsByDay);
+router.post("/bookings", readBookingsByMonth);
 router.post("/book", createBooking);
 module.exports = router;

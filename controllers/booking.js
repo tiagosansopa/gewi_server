@@ -2,12 +2,15 @@ const Booking = require("../models/booking");
 const jwt = require("jsonwebtoken");
 const { expressjwt: ejwt } = require("express-jwt");
 
-exports.readBookingsByDay = (req, res) => {
-  const { selectedDate } = req.body;
-  const startDate = new Date(selectedDate);
-  startDate.setUTCHours(0, 0, 0, 0); // Set the time to the beginning of the day (midnight UTC)
-  const endDate = new Date(selectedDate);
-  endDate.setUTCHours(23, 59, 59, 999); // Set the time to the end of the day (just before midnight UTC)
+exports.readBookingsByMonth = (req, res) => {
+  const { date } = req.body;
+  console.log(date);
+  const currentDay = new Date(date);
+  console.log(currentDay);
+  const year = currentDay.getFullYear();
+  const month = currentDay.getMonth();
+  const startDate = new Date(year, month, 1);
+  const endDate = new Date(year, month + 1, 0);
 
   Booking.find({
     start: {
@@ -16,21 +19,19 @@ exports.readBookingsByDay = (req, res) => {
     },
   })
     .then((array) => {
-      console.log("array viejo: ", array);
       const newArray = array.map((booking) => {
         const localeDateString = booking.start.toLocaleDateString();
         const localeTimeString = booking.start.toLocaleTimeString();
-        const updatedDateTime = `${localeDateString} ${localeTimeString}`;
         const updated = {
           eventName: booking.eventName,
           amenity: booking.amenity,
-          start: updatedDateTime,
-          finish: updatedDateTime,
+          start: booking.start,
+          finish: booking.start,
         };
         return updated;
       });
-      console.log("array local: ", newArray);
-      return res.json({
+      console.log("todobien");
+      return res.status(200).json({
         message: "todo bien",
         bookings: newArray,
       });
