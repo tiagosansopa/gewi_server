@@ -6,12 +6,14 @@ const router = express.Router();
 //import controllers
 
 const {
-  readBookingsByMonth,
+  readBookingsByDay,
   createBooking,
+  readBookingsByMonthAndAmenity,
 } = require("../controllers/booking");
 
 //routes
 
-router.post("/bookings", readBookingsByMonth);
+router.post("/bookings", readBookingsByDay);
+router.post("/b", readBookingsByMonthAndAmenity);
 router.post("/book", createBooking);
 module.exports = router;

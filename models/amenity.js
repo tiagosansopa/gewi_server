@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 
 const amenitySchema = new mongoose.Schema({
-  id: Number,
   img: String,
   name: String,
   description: String,
