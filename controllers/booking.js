@@ -21,13 +21,11 @@ exports.readBookingsByDay = (req, res) => {
     .then((array) => {
       console.log("eventos del dia", array);
       const newArray = array.map((booking) => {
-        const localeDateString = booking.start.toLocaleDateString();
-        const localeTimeString = booking.start.toLocaleTimeString();
         const updated = {
           eventName: booking.eventName,
           amenity: booking.amenity,
           start: booking.start,
-          finish: booking.start,
+          finish: booking.finish,
         };
         return updated;
       });
@@ -103,19 +101,15 @@ exports.readBookingsByMonthAndAmenity = (req, res) => {
 
 exports.createBooking = (req, res) => {
   const { eventName, start, finish, amenity } = req.body;
-  const startDate = new Date(start).toLocaleTimeString();
-  console.log(
-    `listo para bookear ${eventName} el ${new Date(
-      start
-    ).toLocaleDateString()} a las ${startDate} en ${amenity} con utc ${start}`
-  );
+
   const newBooking = new Booking({
     eventName,
-    finish: start,
+    finish: finish,
     start: start,
     amenity,
   });
 
+  console.table(newBooking);
   newBooking
     .save()
     .then((result) => {
