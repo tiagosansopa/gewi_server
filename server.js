@@ -22,6 +22,7 @@ const bookingRoutes = require("./routes/booking");
 const amenitiesRoutes = require("./routes/amenity");
 const messageRoutes = require("./routes/message");
 const notificationRoutes = require("./routes/notification");
+const propertyRoutes = require("./routes/property");
 
 //app  middlewares
 
@@ -39,6 +40,7 @@ app.use("/api", bookingRoutes);
 app.use("/api", amenitiesRoutes);
 app.use("/api", messageRoutes);
 app.use("/api", notificationRoutes);
+app.use("/api", propertyRoutes);
 
 const port = process.env.PORT || 8000;
 
