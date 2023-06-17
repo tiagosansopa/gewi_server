@@ -252,8 +252,9 @@ exports.resetPassword = (req, res) => {
   if (resetPasswordLink) {
     jwt.verify(
       resetPasswordLink,
-      process.env.JWT_ACCOUNT_ACTIVATION,
-      function (err, decoded) {
+      process.env.JWT_RESET_PASSWORD,
+      (err, decoded) => {
+        console.log(err);
         if (err) {
           return res.status(401).json({
             error: "Expired link, please try registering again",
