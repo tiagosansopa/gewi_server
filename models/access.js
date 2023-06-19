@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const { ObjectId } = mongoose.Schema;
 
 // const accessCodeSchema = new mongoose.Schema(
 //   {
@@ -20,10 +21,14 @@ const crypto = require("crypto");
 
 const accessSchema = new mongoose.Schema(
   {
-    place: { type: String, required: true, max: 30 },
+    name: String,
+    lastName: String,
+    number: String,
+    property: { type: ObjectId, ref: "Property" },
     thumbnail: { type: String, required: true, max: 300 },
-    dateTime: { type: String, required: true, max: 300 },
     type: { type: String, required: true, max: 30 },
+    start: Date,
+    finish: Date,
   },
   { timestamps: true }
 );
