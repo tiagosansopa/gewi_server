@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const { ObjectId } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,6 +43,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    contacts: [{ type: ObjectId, ref: "Contact" }],
   },
   { timestamps: true }
 );

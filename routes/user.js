@@ -9,10 +9,13 @@ const {
 } = require("../controllers/auth");
 
 //import from controllers
-const { read } = require("../controllers/user");
+const { read, create, update, del } = require("../controllers/user");
 
 //route
 router.get("/user", requireSignIn, authMiddleware, read);
 router.get("/admin", requireSignIn, adminMiddleware, read);
+router.post("/user", create);
+router.put("/user/:id", update);
+router.delete("/user/:id", del);
 
 module.exports = router;
