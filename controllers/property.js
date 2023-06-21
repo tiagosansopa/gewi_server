@@ -32,13 +32,32 @@ exports.write = (req, res) => {
   newProperty
     .save()
     .then((savedProperty) => {
-      return res.status(200).json({
+      return res.status(201).json({
         message: "Saved property",
       });
     })
-    .catch((error) => {
+    .catch((err) => {
       return res.status(401).json({
         error: "Failed to save property",
+        err,
+      });
+    });
+};
+
+exports.readPropertiesFromUser = (req, res) => {
+  console.log("read properties from user");
+  const id = req.params.id;
+  Property.find({ tenants: id })
+    .then((properties) => {
+      return res.status(200).json({
+        message: "Properties from user found",
+        properties,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: "Error finding properties",
       });
     });
 };

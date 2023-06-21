@@ -1,34 +1,21 @@
 const mongoose = require("mongoose");
-const crypto = require("crypto");
 const { ObjectId } = mongoose.Schema;
-
-// const accessCodeSchema = new mongoose.Schema(
-//   {
-//     name: { type: String, required: true, max: 30 },
-//     phone: { type: String, required: true, max: 30 },
-//     place: { type: String, required: true, max: 30 },
-//     startDate: { type: String, required: true, max: 30 },
-//     endDate: { type: String, required: true, max: 30 },
-//     hour: { type: String, required: true, max: 30 },
-//     image: { url: String, key: String },
-//     createdBy: {
-//       type: isObjectId,
-//       ref: "User",
-//     },
-//   },
-//   { timestamps: true }
-// );
 
 const accessSchema = new mongoose.Schema(
   {
-    name: String,
-    lastName: String,
-    number: String,
+    owner: { type: ObjectId, ref: "User" },
+    contact: { type: ObjectId, ref: "Contact" },
     property: { type: ObjectId, ref: "Property" },
-    thumbnail: { type: String, required: true, max: 300 },
+    thumbnail: {
+      type: String,
+      required: true,
+      max: 300,
+      default: "/images/temp/access/qr1.png",
+    },
     type: { type: String, required: true, max: 30 },
     start: Date,
     finish: Date,
+    status: Number,
   },
   { timestamps: true }
 );

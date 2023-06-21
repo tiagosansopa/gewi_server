@@ -5,10 +5,15 @@ const router = express.Router();
 
 //import controllers
 
-const { readAll, write } = require("../controllers/property");
+const {
+  readAll,
+  write,
+  readPropertiesFromUser,
+} = require("../controllers/property");
 
 //routes
 router.get("/properties", readAll);
+router.get("/properties/:id", readPropertiesFromUser);
 router.post("/property/new", write);
 
 module.exports = router;
