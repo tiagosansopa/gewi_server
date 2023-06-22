@@ -67,3 +67,10 @@ exports.del = (req, res) => {
   const id = req.params.id;
   console.log("delete contact");
 };
+
+exports.validateContact = (req, res) => {
+  //update contact
+  return res.status(200).json({
+    message: "todo bien",
+  });
+};
