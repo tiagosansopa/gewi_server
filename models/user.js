@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     contacts: [{ type: ObjectId, ref: "Contact" }],
+    amenities: [{ type: ObjectId, ref: "Amenity" }],
   },
   { timestamps: true }
 );

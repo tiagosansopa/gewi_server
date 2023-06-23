@@ -83,3 +83,48 @@ exports.del = (req, res) => {
       });
     });
 };
+
+exports.readAmenities = (req, res) => {
+  const id = req.params.id;
+  User.findById(id)
+    .then((user) => {
+      if (user.amenities) {
+        return res.status(200).json({
+          message: "list of fav amenities",
+          amenities: user.amenities,
+        });
+      } else {
+        return res.status(200).json({
+          message: "list of fav amenities empty",
+        });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: "Error amenities not found",
+      });
+    });
+};
+
+exports.updateAmenities = (req, res) => {};
+
+exports.deleteAmenities = (req, res) => {
+  const userId = req.params.id;
+  const updatedData = req.body;
+  console.log("updated data");
+  User.findByIdAndUpdate(
+    userId,
+    { $pull: { elements: elementId } },
+    { new: true }
+  )
+    .then((user) => {
+      console.log("i updated", user);
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: "error updating data",
+      });
+    });
+};
