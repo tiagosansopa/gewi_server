@@ -6,7 +6,6 @@ exports.send = (req, res) => {
   const { sender, receiver, message } = req.body;
   console.log(`sending ${message} from ${sender} and ${receiver}`);
   const newMessage = new Message({ sender, receiver, message });
-
   newMessage
     .save()
     .then((saved) => {
@@ -31,7 +30,7 @@ exports.getChat = (req, res) => {
         { sender: receiverId, receiver: senderId },
       ],
     })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .then((chat) => {
         return res.status(200).json({
           message: "Chat retrived",

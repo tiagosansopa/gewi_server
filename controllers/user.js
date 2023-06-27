@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const User = require("../models/user");
 exports.read = (req, res) => {
   req.profile.hashed_password = undefined;
@@ -107,7 +108,31 @@ exports.readAmenities = (req, res) => {
     });
 };
 
-exports.updateAmenities = (req, res) => {};
+exports.updateAmenities = (req, res) => {
+  const userId = req.params.id;
+  const updatedData = req.body.updatedData;
+  console.log(updatedData);
+  const receiver = new mongoose.Types.ObjectId(updatedData);
+  console.log(receiver);
+  User.findByIdAndUpdate(
+    userId,
+    { $push: { amenities: receiver } },
+    { new: true }
+  )
+    .then((user) => {
+      console.log(user);
+      return res.status(201).json({
+        message: "updated",
+        user,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: "error updating data",
+      });
+    });
+};
 
 exports.deleteAmenities = (req, res) => {
   const userId = req.params.id;

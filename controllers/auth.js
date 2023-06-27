@@ -126,17 +126,23 @@ exports.login = (req, res) => {
 
       // generate token with user name email and password
       const token = jwt.sign(
-        { _id: user._id, name: user.name, role: user.role, img: user.img },
+        {
+          _id: user._id,
+          name: user.name,
+          role: user.role,
+          img: user.img,
+          amenities: user.amenities,
+        },
         process.env.JWT_SECRET,
         {
           expiresIn: "7d",
         }
       );
 
-      const { _id, name, email, role, img } = user;
+      const { _id, name, email, role, img, amenities } = user;
       return res.json({
         token,
-        user: { _id, name, email, role, img },
+        user: { _id, name, email, role, img, amenities },
       });
     })
     .catch((err) => {
