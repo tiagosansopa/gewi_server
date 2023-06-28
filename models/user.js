@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema(
     },
     contacts: [{ type: ObjectId, ref: "Contact" }],
     amenities: [{ type: ObjectId, ref: "Amenity" }],
+    theme: {
+      type: Number,
+      default: 1,
+    },
   },
   { timestamps: true }
 );

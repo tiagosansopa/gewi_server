@@ -132,6 +132,7 @@ exports.login = (req, res) => {
           role: user.role,
           img: user.img,
           amenities: user.amenities,
+          theme: user.theme,
         },
         process.env.JWT_SECRET,
         {
@@ -139,10 +140,10 @@ exports.login = (req, res) => {
         }
       );
 
-      const { _id, name, email, role, img, amenities } = user;
+      const { _id, name, email, role, img, amenities, theme } = user;
       return res.json({
         token,
-        user: { _id, name, email, role, img, amenities },
+        user: { _id, name, email, role, img, amenities, theme },
       });
     })
     .catch((err) => {

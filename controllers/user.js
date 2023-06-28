@@ -120,7 +120,6 @@ exports.updateAmenities = (req, res) => {
     { new: true }
   )
     .then((user) => {
-      console.log(user);
       return res.status(201).json({
         message: "updated",
         user,
@@ -130,6 +129,41 @@ exports.updateAmenities = (req, res) => {
       return res.status(500).json({
         error,
         message: "error updating data",
+      });
+    });
+};
+
+exports.updateTheme = (req, res) => {
+  const userId = req.params.id;
+  const updatedTheme = req.body.theme;
+  User.findByIdAndUpdate(userId, { theme: updatedTheme }, { new: true })
+    .then((user) => {
+      return res.status(201).json({
+        message: "theme updated",
+        theme: user.theme,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        error,
+        message: "error updating theme",
+      });
+    });
+};
+
+exports.getTheme = (req, res) => {
+  const userId = req.params.id;
+  User.findOne({ _id: userId })
+    .then((user) => {
+      return res.status(200).json({
+        message: "el tema es",
+        theme: user.theme,
+      });
+    })
+    .catch((err) => {
+      return res.status(401).json({
+        error: "Failed to retrieve user theme",
+        err,
       });
     });
 };
