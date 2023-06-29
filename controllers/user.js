@@ -88,6 +88,7 @@ exports.del = (req, res) => {
 exports.readAmenities = (req, res) => {
   const id = req.params.id;
   User.findById(id)
+    .populate("amenities")
     .then((user) => {
       if (user.amenities) {
         return res.status(200).json({
